@@ -2,6 +2,29 @@
 const path = require('path');
 const express = require("express");
 const bodyParser = require('body-parser');
+require('dotenv').config();
+//console.log(process.env);
+
+//openai stuff
+const OPENAI_KEY = process.env.OPENAI_KEY;
+console.log(OPENAI_KEY);
+const { Configuration, OpenAIApi } = require("openai");
+const configuration = new Configuration({
+  apiKey: OPENAI_KEY,
+});
+const openai = new OpenAIApi(configuration);
+
+async function coverLetterGen (text) {
+  const response = await openai.createCompletion({
+    model: "text-davinci-003",
+    prompt: text,
+    temperature: 0,
+    max_tokens: 1500,
+  });
+  console.log(response);
+  return response;
+}
+
 
 const PORT = process.env.PORT || 3001;
 
@@ -20,10 +43,25 @@ app.get("/api", (req, res) => {
 
 app.post("/endpoint1", (req, res) => {
   console.log(req);
-  res.json({ 
-    serverMessage: "Hello from server!" ,
-    yourMessage: req.body
-  });
+  console.log(req.body);
+  console.log(req.body.resume);
+  console.log(req.body.jobDescription);
+  const combinedtext = `${req.body.resume}\n Write a cover letter with details from the resume above based on the job description below\n${req.body.jobDescription}`;
+  console.log(combinedtext);
+  
+  coverLetterGen(combinedtext)
+    .then((data) => {
+      console.log("Processing Complete!");
+      //console.log(data.json());
+      res.json({ 
+        serverMessage: "Hello from server!" ,
+        yourMessage: data
+      });
+    })
+    .catch((error) => {
+      console.error(`Generation error: ${error}`);
+    });
+  
 });
 
 // All other GET requests not handled before will return our React app
