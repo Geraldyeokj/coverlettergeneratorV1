@@ -15,11 +15,11 @@ class DocsForm extends React.Component {
     }
   
     handleResumeChange(event) {
-      this.setState({resume: event.target.resume});
+      this.setState({resume: event.target.value});
     }
 
     handleJDChange(event) {
-    this.setState({jobDescription: event.target.jobDescription});
+    this.setState({jobDescription: event.target.value});
     }
   
     handleSubmit(event) {
