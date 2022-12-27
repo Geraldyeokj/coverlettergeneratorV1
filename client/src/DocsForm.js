@@ -41,7 +41,9 @@ class DocsForm extends React.Component {
             .then((res) => res.json())
             .then((response) => {
                 console.log(response);
-                this.setState({coverLetter: JSON.stringify(response)});
+                const coverLetter = response.coverLetter;
+                console.log(coverLetter);
+                this.setState({coverLetter: coverLetter});
             })
             .catch((err) => {
                 console.log(err.message);

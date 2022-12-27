@@ -50,13 +50,10 @@ app.post("/endpoint1", (req, res) => {
   console.log(combinedtext);
   
   coverLetterGen(combinedtext)
-    .then((data) => {
+    .then((reply) => {
       console.log("Processing Complete!");
-      //console.log(data.json());
-      res.json({ 
-        serverMessage: "Hello from server!" ,
-        yourMessage: data
-      });
+      console.log(reply.data.choices[0].text);
+      res.json({ coverLetter: reply.data.choices[0].text });
     })
     .catch((error) => {
       console.error(`Generation error: ${error}`);
