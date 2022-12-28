@@ -3,6 +3,8 @@ import logo from "./logo.svg";
 import "./App.css";
 import DocsForm from "./DocsForm";
 
+
+
 function App() {
   const [data, setData] = React.useState(null);
 
@@ -16,8 +18,11 @@ function App() {
     <div className="App">
       <h1>Cover Letter Generator</h1>
       <DocsForm />
+
+      
     </div>
   );
 }
+
 
 export default App;

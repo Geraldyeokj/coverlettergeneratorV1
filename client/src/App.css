@@ -1,5 +1,17 @@
 .App {
-  text-align: center;
+  display: flex;  
+  justify-Content: center;
+  align-Items: center;
+  flex-direction: column;
+  margin: 25px;
+  padding-top: 70px;
+  padding-bottom: 50px;
+  padding-left: 25px;
+  padding-right: 25px;
+  width: 100%;
+  border-radius: 25px;
+  background-color: white;
+  min-height: 100vh;
 }
 
 .App-logo {

@@ -1,4 +1,5 @@
 import React, {Component} from 'react';
+import "./DocsForm.css";
 
 class DocsForm extends React.Component {
     constructor(props) {
@@ -52,27 +53,31 @@ class DocsForm extends React.Component {
   
     render() {
       return (
-        <div>
-            <form onSubmit={this.handleSubmit}>
-                <h3>Insert Resume:</h3>
-                <div>
-                    <label>
-                        <textarea value={this.state.resume} onChange={this.handleResumeChange} />
-                    </label>
+        <div className='Big-div'>
+            <div className="Content-div">
+                <form className="Form" onSubmit={this.handleSubmit}>
+                    <h3>Insert Resume:</h3>
+                    <div className='Input-div'>
+                        <label className='Label'>
+                            <textarea className="Text-area" value={this.state.resume} onChange={this.handleResumeChange} />
+                        </label>
+                    </div>
+                    <h3>Insert Job Description:</h3>
+                    <div className='Input-div'>
+                        <label className='Label'>
+                            <textarea className="Text-area" value={this.state.jobDescription} onChange={this.handleJDChange} />
+                        </label>
+                    </div>
+                    <div>
+                        <input className="Submit-button" type="submit" value="Submit" />
+                    </div>
+                </form>
+            </div>
+            <div className="Content-div">
+                <div className='Form'>
+                    <h3>Generated Cover letter:</h3>
+                    <textarea rows="27" className="Text-area" value={this.state.coverLetter}/>
                 </div>
-                <h3>Insert Job Description:</h3>
-                <div>
-                    <label>
-                        <textarea value={this.state.jobDescription} onChange={this.handleJDChange} />
-                    </label>
-                </div>
-                <div>
-                    <input type="submit" value="Submit" />
-                </div>
-            </form>
-            <div>
-                <h3>Generated Cover letter:</h3>
-                <textarea value={this.state.coverLetter}/>
             </div>
         </div>
       );
