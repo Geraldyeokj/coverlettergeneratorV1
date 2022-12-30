@@ -71,9 +71,11 @@ async function coverLetterCount () {
 app.get("/count", (req, res) => {
   var clcount = -1;
   coverLetterCount()
-    .then((data) => (clcount = data))
+    .then((data) => {
+      clcount = data;
+      res.json({ coverLetterCount: clcount });
+      })
     .catch((error) => console.log(error));
-  res.json({ coverLetterCount: clcount });
 });
 
 app.post("/endpoint1", (req, res) => {

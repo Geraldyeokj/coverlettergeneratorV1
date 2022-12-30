@@ -9,11 +9,11 @@ body {
   display: flex;
   justify-content: center;
   align-items: stretch;
-  height: 100%
+  height: auto;
 }
 
 html {
-  height: 100%
+  height: auto;
 }
 
 code {
@@ -27,6 +27,5 @@ code {
   justify-content: center;
   align-items: stretch;
   width: 100%;
-  min-height: 100vh;
-  overflow: auto;
+  height: auto;
 }

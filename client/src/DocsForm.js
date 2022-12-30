@@ -30,33 +30,37 @@ class DocsForm extends React.Component {
     }
   
     handleSubmit(event) {
-        alert('Cover letter generated based on: ' + this.state.resume + this.state.jobDescription);
-        const resumeString = this.state.resume;
-        const jobDesciptionString = this.state.jobDescription;
         const keepResumeBool = this.state.keepResume;
-        event.preventDefault();
+        if (keepResumeBool) {
+            alert("Your cover letter is being generated. This may take up to a minute!");
+            const resumeString = this.state.resume;
+            const jobDesciptionString = this.state.jobDescription;
+            event.preventDefault();
 
-        fetch('/endpoint1', {
-            method: 'POST',
-            body: JSON.stringify({
-                resume: resumeString,
-                jobDescription: jobDesciptionString,
-                keepResume: keepResumeBool
-            }),
-            headers: {
-                'Content-type': 'application/json; charset=UTF-8',
-            },
-        })
-            .then((res) => res.json())
-            .then((response) => {
-                console.log(response);
-                const coverLetter = response.coverLetter;
-                console.log(coverLetter);
-                this.setState({coverLetter: coverLetter});
+            fetch('/endpoint1', {
+                method: 'POST',
+                body: JSON.stringify({
+                    resume: resumeString,
+                    jobDescription: jobDesciptionString,
+                    keepResume: keepResumeBool
+                }),
+                headers: {
+                    'Content-type': 'application/json; charset=UTF-8',
+                },
             })
-            .catch((err) => {
-                console.log(err.message);
-            });
+                .then((res) => res.json())
+                .then((response) => {
+                    console.log(response);
+                    const coverLetter = response.coverLetter;
+                    console.log(coverLetter);
+                    this.setState({coverLetter: coverLetter});
+                })
+                .catch((err) => {
+                    console.log(err.message);
+                });
+        } else {
+            alert("Please tick the checkbox! We'll be honest. Maintaining our cover letter generator costs money (~10 cents a cover letter) and we plan to keep this generator free by collecting user data! Alternatively, you could purchase our premium subscriptions if you would like to support our maintenance fees directly!");
+        }
     }
   
     render() {
@@ -76,10 +80,10 @@ class DocsForm extends React.Component {
                             <textarea className="Text-area" value={this.state.jobDescription} onChange={this.handleJDChange} />
                         </label>
                     </div>
-                    <div>
+                    <div className='Checkbox'>
                         <label>
                             <input type="checkbox" value={this.state.keepResume} onChange={this.handleKRChange}/>
-                            I would like my resume to be kept and used for potential job opportunities.
+                            I understand that my resume will be used for the training and maintenance of this cover letter generator.
                         </label>
                     </div>
                     <div>
@@ -90,7 +94,7 @@ class DocsForm extends React.Component {
             <div className="Content-div">
                 <div className='Form'>
                     <h3>Generated Cover letter:</h3>
-                    <textarea rows="27" className="Text-area" value={this.state.coverLetter}/>
+                    <textarea rows="27" className="CoverLetter" value={this.state.coverLetter}/>
                 </div>
             </div>
         </div>

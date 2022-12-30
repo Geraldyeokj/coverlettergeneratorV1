@@ -4,14 +4,14 @@
   align-Items: center;
   flex-direction: column;
   margin: 25px;
-  padding-top: 100px;
-  padding-bottom: 75px;
+  padding-top: 25px;
+  padding-bottom: 25px;
   padding-left: 25px;
   padding-right: 25px;
   width: 100%;
-  border-radius: 25px;
+  border-radius: 45px;
   background-color: white;
-  min-height: 100vh;
+  height: auto;
 }
 
 .Header-div {

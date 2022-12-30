@@ -1,0 +1,25 @@
+.CLCounter {
+    display: flex;  
+    justify-Content: center;
+    align-Items: center;
+    flex-direction: row;
+    background-color: #c4f5c7;
+    border-radius: 15px;
+    padding-left: 15px;
+    padding-right: 15px;
+    margin-bottom: 25px;
+}
+
+.counterValue {
+    display: flex;  
+    justify-Content: center;
+    align-Items: center;
+    flex-direction: row;
+    background-color: white;
+    border-radius: 10px;
+    padding-left: 10px;
+    padding-right: 10px;
+    margin-left: 10px;
+    height: 70%;
+    font-size: larger;
+}

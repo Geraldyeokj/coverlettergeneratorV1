@@ -2,7 +2,7 @@ import React from "react";
 import logo from "./logo.svg";
 import "./App.css";
 import DocsForm from "./DocsForm";
-
+import CLCounter from "./CLCounter";
 
 
 function App() {
@@ -20,6 +20,7 @@ function App() {
         <h1 className="Header-one">Cover Letter Generator</h1>
         <p>Powered with OpenAI's GPT-3 language model.</p>  
       </div>
+      <CLCounter />
       <DocsForm />
 
       
