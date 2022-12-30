@@ -16,7 +16,10 @@ function App() {
 
   return (
     <div className="App">
-      <h1>Cover Letter Generator</h1>
+      <div className="Header-div">
+        <h1 className="Header-one">Cover Letter Generator</h1>
+        <p>Powered with OpenAI's GPT-3 language model.</p>  
+      </div>
       <DocsForm />
 
       

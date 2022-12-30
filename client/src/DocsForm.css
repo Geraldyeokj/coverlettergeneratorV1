@@ -1,6 +1,5 @@
 .Content-div {
     width: 100%;
-    align-Items: center;
     display: flex;  
     justify-Content: center;
     align-Items: center;
@@ -10,6 +9,7 @@
     margin-bottom: 25px;
     background-color: rgb(244, 244, 244);
 }
+
 
 .Input-div {
     width: 100%;

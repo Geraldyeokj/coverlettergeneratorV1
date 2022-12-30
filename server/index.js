@@ -5,6 +5,22 @@ const bodyParser = require('body-parser');
 require('dotenv').config();
 //console.log(process.env);
 
+const routes = require('../routes/routes');
+
+const mongoose = require('mongoose');
+mongoose.set("strictQuery", false);
+const mongoString = process.env.DB_URL;
+mongoose.connect(mongoString);
+const database = mongoose.connection;
+
+database.on('error', (error) => {
+  console.log(error);
+})
+
+database.once('connected', () => {
+  console.log('Database Connected');
+})
+
 //openai stuff
 const OPENAI_KEY = process.env.OPENAI_KEY;
 console.log(OPENAI_KEY);
@@ -46,6 +62,7 @@ app.post("/endpoint1", (req, res) => {
   console.log(req.body);
   console.log(req.body.resume);
   console.log(req.body.jobDescription);
+  console.log(req.body.keepResume);
   const combinedtext = `${req.body.resume}\n Write a cover letter with details from the resume above based on the job description below\n${req.body.jobDescription}`;
   console.log(combinedtext);
   

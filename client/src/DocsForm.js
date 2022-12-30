@@ -7,11 +7,13 @@ class DocsForm extends React.Component {
       this.state = {
         resume: 'Please copy your resume here (in plaintext)',
         jobDescription:'Please copy the job description here (in plaintext)',
-        coverLetter: 'Cover Letter Not Generated'
+        coverLetter: 'Cover Letter Not Generated',
+        keepResume: false
       };
   
       this.handleResumeChange = this.handleResumeChange.bind(this);
       this.handleJDChange = this.handleJDChange.bind(this);
+      this.handleKRChange = this.handleKRChange.bind(this);
       this.handleSubmit = this.handleSubmit.bind(this);
     }
   
@@ -19,21 +21,27 @@ class DocsForm extends React.Component {
       this.setState({resume: event.target.value});
     }
 
+    handleKRChange(event) {
+        this.setState({keepResume: (!this.state.keepResume)});
+    }
+
     handleJDChange(event) {
-    this.setState({jobDescription: event.target.value});
+        this.setState({jobDescription: event.target.value});
     }
   
     handleSubmit(event) {
         alert('Cover letter generated based on: ' + this.state.resume + this.state.jobDescription);
         const resumeString = this.state.resume;
         const jobDesciptionString = this.state.jobDescription;
+        const keepResumeBool = this.state.keepResume;
         event.preventDefault();
 
         fetch('/endpoint1', {
             method: 'POST',
             body: JSON.stringify({
                 resume: resumeString,
-                jobDescription: jobDesciptionString
+                jobDescription: jobDesciptionString,
+                keepResume: keepResumeBool
             }),
             headers: {
                 'Content-type': 'application/json; charset=UTF-8',
@@ -66,6 +74,12 @@ class DocsForm extends React.Component {
                     <div className='Input-div'>
                         <label className='Label'>
                             <textarea className="Text-area" value={this.state.jobDescription} onChange={this.handleJDChange} />
+                        </label>
+                    </div>
+                    <div>
+                        <label>
+                            <input type="checkbox" value={this.state.keepResume} onChange={this.handleKRChange}/>
+                            I would like my resume to be kept and used for potential job opportunities.
                         </label>
                     </div>
                     <div>
