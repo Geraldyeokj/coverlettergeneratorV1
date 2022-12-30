@@ -13,6 +13,8 @@ const mongoString = process.env.DB_URL;
 mongoose.connect(mongoString);
 const database = mongoose.connection;
 
+const userDatum = require("../models/resumeDatum");
+
 database.on('error', (error) => {
   console.log(error);
 })
@@ -20,6 +22,9 @@ database.on('error', (error) => {
 database.once('connected', () => {
   console.log('Database Connected');
 })
+
+//const testResume = new resumeDatum({resumeString: "test resume 1"});
+//testResume.save().then(() => console.log('test resume saved'));
 
 //openai stuff
 const OPENAI_KEY = process.env.OPENAI_KEY;
@@ -57,6 +62,20 @@ app.get("/api", (req, res) => {
   res.json({ message: "Hello from server!" });
 });
 
+async function coverLetterCount () {
+  const resumedata = database.collection("resumedata");
+  const clcount = await resumedata.estimatedDocumentCount();
+  return clcount;
+}
+
+app.get("/count", (req, res) => {
+  var clcount = -1;
+  coverLetterCount()
+    .then((data) => (clcount = data))
+    .catch((error) => console.log(error));
+  res.json({ coverLetterCount: clcount });
+});
+
 app.post("/endpoint1", (req, res) => {
   console.log(req);
   console.log(req.body);
@@ -70,6 +89,18 @@ app.post("/endpoint1", (req, res) => {
     .then((reply) => {
       console.log("Processing Complete!");
       console.log(reply.data.choices[0].text);
+      const saveUserDatum = new userDatum({
+        resumeString: req.body.resume, 
+        jobDescriptionString: req.body.jobDescription,
+        coverLetterGenString: reply.data.choices[0].text
+      });
+      if (req.body.keepResume) {
+        saveUserDatum.save()
+          .then(() => console.log('test resume saved'))
+          .catch((error) => {
+            console.error(`Resume saving error: ${error}`);
+          });
+      }
       res.json({ coverLetter: reply.data.choices[0].text });
     })
     .catch((error) => {
@@ -77,6 +108,7 @@ app.post("/endpoint1", (req, res) => {
     });
   
 });
+
 
 // All other GET requests not handled before will return our React app
 app.get('*', (req, res) => {
