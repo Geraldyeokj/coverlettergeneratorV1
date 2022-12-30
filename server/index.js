@@ -85,30 +85,36 @@ app.post("/endpoint1", (req, res) => {
   console.log(req.body.jobDescription);
   console.log(req.body.keepResume);
   const combinedtext = `${req.body.resume}\n Write a cover letter with details from the resume above based on the job description below\n${req.body.jobDescription}`;
-  console.log(combinedtext);
+  const resumeLength = req.body.resume.length;
+  const jobDescriptionLength = req.body.jobDescription.length;
+  const totalLength = resumeLength + jobDescriptionLength;
+  if ((totalLength / 3.5) > 2500) {
+    res.json({ coverLetter: `You have exceeded the character count. The combined length of your resume and job description should not exceed 8750 chacracters.\nYour total character count is ${totalLength}.\nYour resume character count is ${resumeLength}\nYour job description character count is ${jobDescriptionLength}.` });
+  } else{
+    console.log(combinedtext);
   
-  coverLetterGen(combinedtext)
-    .then((reply) => {
-      console.log("Processing Complete!");
-      console.log(reply.data.choices[0].text);
-      const saveUserDatum = new userDatum({
-        resumeString: req.body.resume, 
-        jobDescriptionString: req.body.jobDescription,
-        coverLetterGenString: reply.data.choices[0].text
+    coverLetterGen(combinedtext)
+      .then((reply) => {
+        console.log("Processing Complete!");
+        console.log(reply.data.choices[0].text);
+        const saveUserDatum = new userDatum({
+          resumeString: req.body.resume, 
+          jobDescriptionString: req.body.jobDescription,
+          coverLetterGenString: reply.data.choices[0].text
+        });
+        if (req.body.keepResume) {
+          saveUserDatum.save()
+            .then(() => console.log('test resume saved'))
+            .catch((error) => {
+              console.error(`Resume saving error: ${error}`);
+            });
+        }
+        res.json({ coverLetter: reply.data.choices[0].text });
+      })
+      .catch((error) => {
+        console.error(`Generation error: ${error}`);
       });
-      if (req.body.keepResume) {
-        saveUserDatum.save()
-          .then(() => console.log('test resume saved'))
-          .catch((error) => {
-            console.error(`Resume saving error: ${error}`);
-          });
-      }
-      res.json({ coverLetter: reply.data.choices[0].text });
-    })
-    .catch((error) => {
-      console.error(`Generation error: ${error}`);
-    });
-  
+  }
 });
 
 
