@@ -18,7 +18,7 @@ function App() {
     <div className="App">
       <div className="Header-div">
         <h1 className="Header-one">Cover Letter Generator</h1>
-        <p>Powered with OpenAI's GPT-3 language model.</p>  
+        <p>Powered by OpenAI's GPT-3 language model.</p>  
       </div>
       <CLCounter />
       <DocsForm />
