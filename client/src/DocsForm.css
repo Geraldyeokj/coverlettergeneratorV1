@@ -43,6 +43,13 @@
     resize: none;
 }
 
+.charCount {
+    width: 100%;
+    display: flex; 
+    padding-right: 10px;
+    justify-content: flex-end;
+}
+
 .Checkbox {
     margin-top: 5px;
     margin-bottom: 15px;

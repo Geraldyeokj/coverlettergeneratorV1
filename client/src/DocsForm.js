@@ -5,8 +5,10 @@ class DocsForm extends React.Component {
     constructor(props) {
       super(props);
       this.state = {
-        resume: 'Please copy your resume here (in plaintext)',
-        jobDescription:'Please copy the job description here (in plaintext)',
+        resume: 'Please copy your resume here (in plaintext)\n\nThe total character count for both your resume and job description should be less than 8750.',
+        resumeCount: 0,
+        jobDescription:'Please copy the job description here (in plaintext)\n\nThe total character count for both your resume and job description should be less than 8750.',
+        jobDescriptionCount: 0,
         coverLetter: 'Cover Letter Not Generated',
         keepResume: false
       };
@@ -19,6 +21,7 @@ class DocsForm extends React.Component {
   
     handleResumeChange(event) {
       this.setState({resume: event.target.value});
+      this.setState({resumeCount: event.target.value.length});
     }
 
     handleKRChange(event) {
@@ -27,6 +30,7 @@ class DocsForm extends React.Component {
 
     handleJDChange(event) {
         this.setState({jobDescription: event.target.value});
+        this.setState({jobDescriptionCount: event.target.value.length});
     }
   
     handleSubmit(event) {
@@ -72,12 +76,22 @@ class DocsForm extends React.Component {
                     <div className='Input-div'>
                         <label className='Label'>
                             <textarea className="Text-area" value={this.state.resume} onChange={this.handleResumeChange} />
+                            <div className='charCount'>
+                                character count: {this.state.resumeCount}
+                            </div>
                         </label>
                     </div>
                     <h3>Insert Job Description:</h3>
                     <div className='Input-div'>
                         <label className='Label'>
                             <textarea className="Text-area" value={this.state.jobDescription} onChange={this.handleJDChange} />
+                            <div className='charCount'>
+                                character count: {this.state.jobDescriptionCount}
+                            </div>
+                            <p></p>
+                            <div className='charCount'>
+                                <b>Total character count: {this.state.jobDescriptionCount + this.state.resumeCount}</b>
+                            </div>
                         </label>
                     </div>
                     <div className='Checkbox'>
