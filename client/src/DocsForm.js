@@ -1,5 +1,6 @@
 import React, {Component} from 'react';
 import "./DocsForm.css";
+import BeatLoader from "react-spinners/BeatLoader"
 
 class DocsForm extends React.Component {
     constructor(props) {
@@ -10,9 +11,9 @@ class DocsForm extends React.Component {
         jobDescription:'Please copy the job description here (in plaintext)\n\nThe total character count for both your resume and job description should be less than 8750.',
         jobDescriptionCount: 0,
         coverLetter: 'Cover Letter Not Generated',
-        keepResume: false
+        keepResume: false,
+        loading: false,
       };
-  
       this.handleResumeChange = this.handleResumeChange.bind(this);
       this.handleJDChange = this.handleJDChange.bind(this);
       this.handleKRChange = this.handleKRChange.bind(this);
@@ -34,6 +35,7 @@ class DocsForm extends React.Component {
     }
   
     handleSubmit(event) {
+        this.setState({loading: true});
         const keepResumeBool = this.state.keepResume;
         if (keepResumeBool) {
             alert("Your cover letter is being generated. This may take up to a minute!");
@@ -59,6 +61,9 @@ class DocsForm extends React.Component {
                     console.log(coverLetter);
                     this.setState({coverLetter: coverLetter});
                 })
+                .then(() => {
+                    this.setState({loading:false});
+                })
                 .catch((err) => {
                     console.log(err.message);
                 });
@@ -71,7 +76,7 @@ class DocsForm extends React.Component {
       return (
         <div className='Big-div'>
             <div className="Content-div">
-                <form className="Form" onSubmit={this.handleSubmit}>
+                <form className="Form">
                     <h3>Insert Resume:</h3>
                     <div className='Input-div'>
                         <label className='Label'>
@@ -101,7 +106,13 @@ class DocsForm extends React.Component {
                         </label>
                     </div>
                     <div>
-                        <input className="Submit-button" type="submit" value="Submit" />
+                        <button className="Submit-button" type="submit" onClick={this.handleSubmit}>
+                            {this.state.loading ? (
+                                <BeatLoader color="#000000" size="15" />
+                            ) : (
+                                "Generate"
+                            )}
+                        </button>
                     </div>
                 </form>
             </div>
